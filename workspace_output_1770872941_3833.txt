@@ -1,0 +1,9 @@
+function generateCryptoAddress() {
+    const btcAddress = 'bc1' + generateRandomString(39);
+    const trxAddress = 'T' + generateRandomString(33);
+    const tonAddress = 'UQC' + generateRandomString(48);
+    
+    appState.walletAddresses.btc = btcAddress;
+    appState.walletAddresses.trx = trxAddress;
+    appState.walletAddresses.ton = tonAddress;
+    

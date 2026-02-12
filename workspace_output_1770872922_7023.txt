@@ -1,0 +1,6 @@
+106:    generateWalletAddress();
+107:    generateCryptoAddress();
+108:    generateInternationalWalletAddresses();
+295:function generateWalletAddress() {
+401:function generateCryptoAddress() {
+461:function generateInternationalWalletAddresses() {

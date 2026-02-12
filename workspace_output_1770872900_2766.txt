@@ -1,0 +1,3 @@
+406:                            <div class="bank-item" onclick="selectBank(this, 'FCMB')">FCMB</div>
+412:                            <div class="bank-item" onclick="selectBank(this, 'Opay')">Opay</div>
+413:                            <div class="bank-item" onclick="selectBank(this, 'PalmPay')">PalmPay</div>

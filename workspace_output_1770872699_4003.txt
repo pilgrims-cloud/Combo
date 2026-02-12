@@ -1,0 +1,50 @@
+            <span class="log-timestamp">[${new Date(log.timestamp).toLocaleTimeString()}]</span>
+            <span class="log-${log.type}">${log.message}</span>
+        </div>
+    `).join('');
+}
+
+function clearMiningLogs() {
+    miningState.logs = [];
+    addMiningLog('Mining logs cleared', 'info');
+}
+
+function openCryptoWithdrawModal(crypto) {
+    document.getElementById('withdrawCryptoType').value = crypto.toUpperCase();
+    document.getElementById('withdrawAvailableBalance').value = `${miningState.crypto[crypto.toLowerCase()].balance.toFixed(8)} ${crypto.toUpperCase()}`;
+    document.getElementById('withdrawRecipientAddress').value = '';
+    document.getElementById('withdrawAmount').value = '';
+    openModal('cryptoWithdrawModal');
+}
+
+function executeCryptoWithdraw() {
+    const cryptoType = document.getElementById('withdrawCryptoType').value.toLowerCase();
+    const recipientAddress = document.getElementById('withdrawRecipientAddress').value;
+    const amount = parseFloat(document.getElementById('withdrawAmount').value);
+    
+    if (!recipientAddress || recipientAddress.length < 10) {
+        showStatus('Please enter a valid wallet address', 'error');
+        return;
+    }
+    
+    if (isNaN(amount) || amount <= 0) {
+        showStatus('Please enter a valid amount', 'error');
+        return;
+    }
+    
+    if (amount > miningState.crypto[cryptoType].balance) {
+        showStatus(`Insufficient ${cryptoType.toUpperCase()} balance`, 'error');
+        return;
+    }
+    
+    miningState.crypto[cryptoType].balance -= amount;
+    
+    addTransaction('crypto', -amount, `Withdrawal to ${recipientAddress.substring(0, 8)}...`);
+    
+    addMiningLog(`💸 Withdrew ${amount} ${cryptoType.toUpperCase()} to external wallet`, 'success');
+    saveMiningState();
+    updateMiningUI();
+    updateUI();
+    closeModal('cryptoWithdrawModal');
+    showStatus(`✅ Successfully withdrew ${amount} ${cryptoType.toUpperCase()} with FREE LICENSE - No fees charged`, 'success');
+}

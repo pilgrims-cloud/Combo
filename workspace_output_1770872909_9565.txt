@@ -1,0 +1,5 @@
+333:            <!-- PayPal and Western Union Integration -->
+341:                        <div class="payment-method-name">PayPal</div>
+346:                        <div class="payment-method-name">Western Union</div>
+351:                        <div class="payment-method-name">Wise</div>
+356:                        <div class="payment-method-name">Payoneer</div>

@@ -1,0 +1,11 @@
+function generateInternationalWalletAddresses() {
+    appState.walletAddresses.usd = 'USD' + generateRandomString(32);
+    appState.walletAddresses.eur = 'EUR' + generateRandomString(32);
+    appState.walletAddresses.gbp = 'GBP' + generateRandomString(32);
+    appState.walletAddresses.ngn = 'NGN' + generateRandomString(32);
+}
+
+function openCurrencyConverterModal() {
+    openModal('currencyConverterModal');
+    document.getElementById('conversionResult').textContent = '';
+}

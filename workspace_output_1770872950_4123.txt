@@ -1,0 +1,21 @@
+        <!-- Blockchain Tab -->
+        <div id="blockchain" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">₿ Blockchain Wallet</h2>
+                    <button class="btn btn-success" onclick="generateCryptoAddress()">🔄 Generate Crypto Address</button>
+                </div>
+                <div class="wallet-grid">
+                    <div class="wallet-card">
+                        <h3>Bitcoin (BTC)</h3>
+                        <p class="info-label">Wallet Address:</p>
+                        <div class="wallet-address" id="btcWalletAddress">N/A</div>
+                        <p class="info-label" style="margin-top: 1rem;">Balance:</p>
+                        <div class="balance-amount" style="font-size: 1.5rem;" id="btcBalance">0.00000000 BTC</div>
+                        <button class="btn btn-primary btn-small" style="margin-top: 1rem; background: white; color: #667eea;" onclick="openCryptoTransferModal('BTC')">Send BTC</button>
+                    </div>
+                    <div class="wallet-card" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                        <h3>TRON (TRX)</h3>
+                        <p class="info-label">Wallet Address:</p>
+                        <div class="wallet-address" id="trxWalletAddress">N/A</div>
+                        <p class="info-label" style="margin-top: 1rem;">Balance:</p>

@@ -1,0 +1,4 @@
+120:        .dashboard-link {
+144:        .dashboard-link:hover {
+254:        <a href="index.html" class="dashboard-link">
+255:            🚀 Enter Dashboard →

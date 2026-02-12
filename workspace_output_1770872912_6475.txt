@@ -1,0 +1,10 @@
+29:            <a class="nav-link" onclick="showTab('backup')">💾 Backup</a>
+1094:        <!-- Backup Tab -->
+1095:        <div id="backup" class="tab-content">
+1098:                    <h2 class="card-title">💾 Backup & Restore System</h2>
+1101:                    Automatically backup your banking data to prevent data loss. You can also manually export and import your data.
+1104:                <div class="backup-section">
+1105:                    <h3>🔄 Automatic Backup</h3>
+1107:                    <div class="backup-controls">
+1108:                        <button class="btn btn-success" onclick="createBackup()">💾 Create Backup Now</button>
+1109:                        <button class="btn btn-primary" onclick="downloadBackup()">⬇️ Download Backup File</button>

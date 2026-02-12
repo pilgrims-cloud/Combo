@@ -1,0 +1,10 @@
+41:                🔒 CBN Code: agb 999 | BVN/NIN Transaction Network Active
+45:        <!-- BVN/NIN Status Section -->
+47:            <h2 style="text-align: center; margin-bottom: 1rem;">🔐 BVN & NIN Transaction Network</h2>
+48:            <p style="text-align: center; opacity: 0.9;">Secure transfers via BVN and NIN verification</p>
+52:                    <div class="status-label">BVN Status</div>
+54:                    <div style="font-size: 0.9rem; margin-top: 0.25rem;" id="bvnNumber">BVN: ***********123</div>
+58:                    <div class="status-label">NIN Status</div>
+60:                    <div style="font-size: 0.9rem; margin-top: 0.25rem;" id="ninNumber">NIN: ************456</div>
+64:                    <div class="status-label">Phone Transfer</div>
+161:                            <span class="info-label">BVN:</span>
