@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combos Bank - Digital Banking Platform</title>
+    <link rel="stylesheet" href="banking-app.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            🏦 Combos Bank
+            <span style="font-size: 0.7rem; margin-left: 0.5rem; opacity: 0.8;">| Owner: Olawale Abdul-Ganiyu</span>
+        </div>
+        <div class="navbar-menu">
+            <a class="nav-link" onclick="showTab('dashboard')">Dashboard</a>
+            <a class="nav-link" onclick="showTab('profile')">Profile</a>
+            <a class="nav-link" onclick="showTab('wallet')">Wallet</a>
+            <a class="nav-link" onclick="showTab('blockchain')">Blockchain</a>
+            <a class="nav-link" onclick="showTab('international')">International</a>
+            <a class="nav-link" onclick="showTab('transfers')">Transfers</a>
+            <a class="nav-link" onclick="showTab('mining')">⛏️ Mining</a>
+            <a class="nav-link" onclick="showTab('signals')">📊 Signals</a>
+            <a class="nav-link" onclick="showTab('search')">🔍 Search</a>
+            <a class="nav-link" onclick="showTab('license')">🎫 License</a>
+            <a class="nav-link" onclick="showTab('alerts')">Alerts</a>
+            <a class="nav-link" onclick="showTab('backup')">💾 Backup</a>
+            <a class="nav-link" href="cover.html">🏠 Home</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Status Messages -->
+        <div id="statusMessage" class="status-message"></div>
+
+        <!-- CBN Code Badge -->
+        <div style="text-align: center; margin-bottom: 1rem;">
+            <span style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 0.5rem 1.5rem; border-radius: 20px; font-weight: 600;">
+                🔒 CBN Code: agb 999 | BVN/NIN Transaction Network Active
+            </span>
+        </div>
+
+        <!-- BVN/NIN Status Section -->
+        <div class="bvn-nin-section">
+            <h2 style="text-align: center; margin-bottom: 1rem;">🔐 BVN & NIN Transaction Network</h2>
+            <p style="text-align: center; opacity: 0.9;">Secure transfers via BVN and NIN verification</p>
+            <div class="bvn-nin-status">
+                <div class="status-item">
+                    <div class="status-icon">🆔</div>
+                    <div class="status-label">BVN Status</div>
+                    <div class="status-value" id="bvnStatus">Verified</div>
+                    <div style="font-size: 0.9rem; margin-top: 0.25rem;" id="bvnNumber">BVN: ***********123</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-icon">📋</div>
+                    <div class="status-label">NIN Status</div>
+                    <div class="status-value" id="ninStatus">Verified</div>
+                    <div style="font-size: 0.9rem; margin-top: 0.25rem;" id="ninNumber">NIN: ************456</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-icon">📱</div>
+                    <div class="status-label">Phone Transfer</div>
+                    <div class="status-value">Active</div>
+                    <div style="font-size: 0.9rem; margin-top: 0.25rem;" id="phoneTransfer">Use phone number to receive</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">💰 Balance Board</h2>
+                </div>
+                <div class="balance-board">
+                    <h3>Available Balance</h3>
+                    <div class="balance-amount" id="mainBalance">₦0.00</div>
+                    <div class="balance-controls">
+                        <button class="btn btn-success" onclick="openCreditModal()">+ Credit</button>
+                        <button class="btn btn-danger" onclick="openDebitModal()">- Debit</button>
+                        <button class="btn btn-primary" onclick="openEditBalanceModal()">✏️ Edit Balance</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">📊 Quick Overview</h2>
+                </div>
+                <div class="wallet-grid">
+                    <div class="wallet-card">
+                        <h3>Wallet Balance</h3>
+                        <div class="balance-amount" id="walletBalance" style="font-size: 2rem;">₦0.00</div>
+                        <button class="btn btn-primary btn-small" onclick="showTab('wallet')" style="background: white; color: #667eea;">Manage Wallet</button>
+                    </div>
+                    <div class="wallet-card" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                        <h3>Crypto Holdings</h3>
+                        <div class="balance-amount" id="cryptoBalance" style="font-size: 2rem;">$0.00</div>
+                        <button class="btn btn-primary btn-small" onclick="showTab('blockchain')" style="background: white; color: #f5576c;">View Crypto</button>
+                    </div>
+                    <div class="wallet-card" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+                        <h3>Total Transactions</h3>
+                        <div class="balance-amount" id="totalTransactions" style="font-size: 2rem;">0</div>
+                        <button class="btn btn-primary btn-small" onclick="showTab('transfers')" style="background: white; color: #38f9d7;">View History</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">📋 Recent Transactions</h2>
+                    <button class="btn btn-primary btn-small" onclick="showTab('transfers')">View All</button>
+                </div>
+                <ul class="transaction-list" id="recentTransactions">
+                    <li class="transaction-item" style="text-align: center; color: var(--text-secondary);">
+                        No transactions yet
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Profile Tab -->
+        <div id="profile" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">👤 User Profile</h2>
+                    <button class="btn btn-primary btn-small" onclick="openEditProfileModal()">✏️ Edit Profile</button>
+                </div>
+                <div class="profile-section">
+                    <div class="profile-photo-container">
+                        <img src="https://via.placeholder.com/200" alt="Profile Photo" class="profile-photo" id="profilePhoto">
+                        <div>
+                            <button class="btn btn-primary btn-small" onclick="document.getElementById('photoUpload').click()">📷 Upload Photo</button>
+                            <input type="file" id="photoUpload" accept="image/*" style="display: none;" onchange="uploadProfilePhoto(event)">
+                        </div>
+                    </div>
+                    <div class="profile-info">
+                        <div class="info-item">
+                            <span class="info-label">Full Name:</span>
+                            <span class="info-value" id="profileName">Olawale Abdul-Ganiyu</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Date of Birth:</span>
+                            <span class="info-value" id="profileDOB">13/12/1985</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Sex:</span>
+                            <span class="info-value" id="profileSex">Male</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Country:</span>
+                            <span class="info-value" id="profileCountry">Nigeria</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Account Number:</span>
+                            <span class="info-value" id="profileAccount">1234567890</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">BVN:</span>
+                            <span class="info-value" id="profileBVN">***********123</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">NIN:</span>
+                            <span class="info-value" id="profileNIN">************456</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Email:</span>
+                            <span class="info-value" id="profileEmail">olawale@combosbank.com</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Phone:</span>
+                            <span class="info-value" id="profilePhone">+234 801 234 5678</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Account Type:</span>
+                            <span class="info-value">Personal Account</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Owner:</span>
+                            <span class="info-value">Olawale Abdul-Ganiyu</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wallet Tab -->
+        <div id="wallet" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">💳 Digital Wallet</h2>
+                    <button class="btn btn-success" onclick="generateWalletAddress()">🔄 Generate New Address</button>
+                </div>
+                <div class="wallet-grid">
+                    <div class="wallet-card">
+                        <h3>Debit Wallet</h3>
+                        <p class="info-label">Wallet Address:</p>
+                        <div class="wallet-address" id="debitWalletAddress">N/A</div>
+                        <p class="info-label" style="margin-top: 1rem;">Balance:</p>
+                        <div class="balance-amount" style="font-size: 2rem;" id="debitWalletBalance">₦0.00</div>
+                        <div class="balance-controls" style="margin-top: 1rem;">
+                            <button class="btn btn-success btn-small" onclick="openFundWalletModal()" style="background: white; color: #10b981;">+ Fund</button>
+                            <button class="btn btn-danger btn-small" onclick="openWithdrawWalletModal()" style="background: white; color: #ef4444;">- Withdraw</button>
+                        </div>
+                    </div>
+                    <div class="wallet-card" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                        <h3>Credit Wallet</h3>
+                        <p class="info-label">Wallet Address:</p>
+                        <div class="wallet-address" id="creditWalletAddress">N/A</div>
+                        <p class="info-label" style="margin-top: 1rem;">Balance:</p>
+                        <div class="balance-amount" style="font-size: 2rem;" id="creditWalletBalance">₦0.00</div>
+                        <div class="balance-controls" style="margin-top: 1rem;">
+                            <button class="btn btn-primary btn-small" onclick="openWalletTransferModal()" style="background: white; color: #f5576c;">↔️ Transfer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blockchain Tab -->
+        <div id="blockchain" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">₿ Blockchain Wallet</h2>
+                    <button class="btn btn-success" onclick="generateCryptoAddress()">🔄 Generate Crypto Address</button>
+                </div>
+                <div class="wallet-grid">
+                    <div class="wallet-card">
+                        <h3>Bitcoin (BTC)</h3>
+                        <p class="info-label">Wallet Address:</p>
+                        <div class="wallet-address" id="btcWalletAddress">N/A</div>
+                        <p class="info-label" style="margin-top: 1rem;">Balance:</p>
+                        <div class="balance-amount" style="font-size: 1.5rem;" id="btcBalance">0.00000000 BTC</div>
+                        <button class="btn btn-primary btn-small" style="margin-top: 1rem; background: white; color: #667eea;" onclick="openCryptoTransferModal('BTC')">Send BTC</button>
+                    </div>
+                    <div class="wallet-card" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                        <h3>TRON (TRX)</h3>
+                        <p class="info-label">Wallet Address:</p>
+                        <div class="wallet-address" id="trxWalletAddress">N/A</div>
+                        <p class="info-label" style="margin-top: 1rem;">Balance:</p>
+                        <div class="balance-amount" style="font-size: 1.5rem;" id="trxBalance">0.00000000 TRX</div>
+                        <button class="btn btn-primary btn-small" style="margin-top: 1rem; background: white; color: #f5576c;" onclick="openCryptoTransferModal('TRX')">Send TRX</button>
+                    </div>
+                    <div class="wallet-card" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                        <h3>TON (TON)</h3>
+                        <p class="info-label">Wallet Address:</p>
+                        <div class="wallet-address" id="tonWalletAddress">N/A</div>
+                        <p class="info-label" style="margin-top: 1rem;">Balance:</p>
+                        <div class="balance-amount" style="font-size: 1.5rem;" id="tonBalance">0.00000000 TON</div>
+                        <button class="btn btn-primary btn-small" style="margin-top: 1rem; background: white; color: #00f2fe;" onclick="openCryptoTransferModal('TON')">Send TON</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">📊 Supported Cryptocurrencies</h2>
+                </div>
+                <div class="crypto-grid">
+                    <div class="crypto-item">
+                        <div class="crypto-icon btc-icon">₿</div>
+                        <div>
+                            <strong>Bitcoin</strong>
+                            <p class="info-label">BTC</p>
+                        </div>
+                    </div>
+                    <div class="crypto-item">
+                        <div class="crypto-icon trx-icon">TRX</div>
+                        <div>
+                            <strong>TRON</strong>
+                            <p class="info-label">TRX</p>
+                        </div>
+                    </div>
+                    <div class="crypto-item">
+                        <div class="crypto-icon ton-icon">TON</div>
+                        <div>
+                            <strong>TON</strong>
+                            <p class="info-label">TON</p>
+                        </div>
+                    </div>
+                    <div class="crypto-item">
+                        <div class="crypto-icon eth-icon">Ξ</div>
+                        <div>
+                            <strong>Ethereum</strong>
+                            <p class="info-label">ETH</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- International Tab -->
+        <div id="international" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">🌍 International Banking</h2>
+                    <button class="btn btn-primary" onclick="openCurrencyConverterModal()">💱 Currency Converter</button>
+                </div>
+                <div class="currency-grid">
+                    <div class="currency-card">
+                        <div class="currency-symbol">$</div>
+                        <div class="currency-name">US Dollar</div>
+                        <div class="currency-balance" id="usdBalance">$0.00</div>
+                        <div class="wallet-address" style="font-size: 0.8rem; margin: 0.5rem 0;" id="usdWalletAddress">N/A</div>
+                        <button class="btn btn-success btn-small" style="margin-top: 1rem; background: white; color: #667eea;" onclick="openInternationalDepositModal('USD')">+ Deposit</button>
+                    </div>
+                    <div class="currency-card" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                        <div class="currency-symbol">€</div>
+                        <div class="currency-name">Euro</div>
+                        <div class="currency-balance" id="eurBalance">€0.00</div>
+                        <div class="wallet-address" style="font-size: 0.8rem; margin: 0.5rem 0;" id="eurWalletAddress">N/A</div>
+                        <button class="btn btn-success btn-small" style="margin-top: 1rem; background: white; color: #f5576c;" onclick="openInternationalDepositModal('EUR')">+ Deposit</button>
+                    </div>
+                    <div class="currency-card" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                        <div class="currency-symbol">£</div>
+                        <div class="currency-name">British Pound</div>
+                        <div class="currency-balance" id="gbpBalance">£0.00</div>
+                        <div class="wallet-address" style="font-size: 0.8rem; margin: 0.5rem 0;" id="gbpWalletAddress">N/A</div>
+                        <button class="btn btn-success btn-small" style="margin-top: 1rem; background: white; color: #00f2fe;" onclick="openInternationalDepositModal('GBP')">+ Deposit</button>
+                    </div>
+                    <div class="currency-card" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+                        <div class="currency-symbol">₦</div>
+                        <div class="currency-name">Nigerian Naira</div>
+                        <div class="currency-balance" id="ngnBalance">₦0.00</div>
+                        <div class="wallet-address" style="font-size: 0.8rem; margin: 0.5rem 0;" id="ngnWalletAddress">N/A</div>
+                        <button class="btn btn-success btn-small" style="margin-top: 1rem; background: white; color: #38f9d7;" onclick="openInternationalDepositModal('NGN')">+ Deposit</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PayPal and Western Union Integration -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">💳 International Payment Services</h2>
+                </div>
+                <div class="payment-methods">
+                    <div class="payment-method-card" onclick="selectPaymentMethod(this, 'paypal')">
+                        <div class="payment-method-icon">🅿️</div>
+                        <div class="payment-method-name">PayPal</div>
+                        <div style="font-size: 0.8rem; margin-top: 0.5rem; color: var(--text-secondary);">Send & Receive</div>
+                    </div>
+                    <div class="payment-method-card" onclick="selectPaymentMethod(this, 'westernunion')">
+                        <div class="payment-method-icon">🏦</div>
+                        <div class="payment-method-name">Western Union</div>
+                        <div style="font-size: 0.8rem; margin-top: 0.5rem; color: var(--text-secondary);">Global Transfers</div>
+                    </div>
+                    <div class="payment-method-card" onclick="selectPaymentMethod(this, 'wise')">
+                        <div class="payment-method-icon">🌐</div>
+                        <div class="payment-method-name">Wise</div>
+                        <div style="font-size: 0.8rem; margin-top: 0.5rem; color: var(--text-secondary);">Low Fees</div>
+                    </div>
+                    <div class="payment-method-card" onclick="selectPaymentMethod(this, 'payoneer')">
+                        <div class="payment-method-icon">💼</div>
+                        <div class="payment-method-name">Payoneer</div>
+                        <div style="font-size: 0.8rem; margin-top: 0.5rem; color: var(--text-secondary);">Business</div>
+                    </div>
+                </div>
+                <div id="paymentMethodForm" style="display: none; margin-top: 2rem;">
+                    <h3 style="margin-bottom: 1rem;">Send via: <span id="selectedPaymentMethod"></span></h3>
+                    <div class="form-group">
+                        <label class="form-label">Recipient Email/Account</label>
+                        <input type="text" class="form-input" id="paymentRecipient" placeholder="Enter recipient email or account">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Amount (USD)</label>
+                        <input type="number" class="form-input" id="paymentAmount" placeholder="Enter amount">
+                    </div>
+                    <button class="btn btn-success" onclick="executeInternationalPayment()">💸 Send Payment</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transfers Tab -->
+        <div id="transfers" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">🏦 Bank Transfers</h2>
+                </div>
+                
+                <!-- Transfer Type Selection -->
+                <div class="tabs" style="margin-bottom: 1.5rem;">
+                    <button class="tab-btn active" onclick="showTransferType('account')">Account Transfer</button>
+                    <button class="tab-btn" onclick="showTransferType('bvn')">BVN Transfer</button>
+                    <button class="tab-btn" onclick="showTransferType('phone')">Phone Transfer</button>
+                </div>
+
+                <!-- Account Transfer -->
+                <div id="accountTransfer" class="transfer-section active">
+                    <div class="tabs">
+                        <button class="tab-btn active" onclick="showBankTab('commercial')">Commercial Banks</button>
+                        <button class="tab-btn" onclick="showBankTab('fintech')">Fintech & Mobile</button>
+                    </div>
+                    
+                    <div id="commercial" class="tab-content active">
+                        <div class="bank-grid">
+                            <div class="bank-item" onclick="selectBank(this, 'Access Bank')">Access Bank</div>
+                            <div class="bank-item" onclick="selectBank(this, 'GTBank')">GTBank</div>
+                            <div class="bank-item" onclick="selectBank(this, 'First Bank')">First Bank</div>
+                            <div class="bank-item" onclick="selectBank(this, 'UBA')">UBA</div>
+                            <div class="bank-item" onclick="selectBank(this, 'Zenith Bank')">Zenith Bank</div>
+                            <div class="bank-item" onclick="selectBank(this, 'Wema Bank')">Wema Bank</div>
+                            <div class="bank-item" onclick="selectBank(this, 'Sterling Bank')">Sterling Bank</div>
+                            <div class="bank-item" onclick="selectBank(this, 'Fidelity Bank')">Fidelity Bank</div>
+                            <div class="bank-item" onclick="selectBank(this, 'FCMB')">FCMB</div>
+                        </div>
+                    </div>
+
+                    <div id="fintech" class="tab-content">
+                        <div class="bank-grid">
+                            <div class="bank-item" onclick="selectBank(this, 'Opay')">Opay</div>
+                            <div class="bank-item" onclick="selectBank(this, 'PalmPay')">PalmPay</div>
+                            <div class="bank-item" onclick="selectBank(this, 'Kuda Bank')">Kuda Bank</div>
+                            <div class="bank-item" onclick="selectBank(this, 'Carbon')">Carbon</div>
+                            <div class="bank-item" onclick="selectBank(this, 'FairMoney')">FairMoney</div>
+                            <div class="bank-item" onclick="selectBank(this, 'ALAT')">ALAT</div>
+                            <div class="bank-item" onclick="selectBank(this, 'Sparkle')">Sparkle</div>
+                            <div class="bank-item" onclick="selectBank(this, 'Mint')">Mint</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BVN Transfer -->
+                <div id="bvnTransfer" class="transfer-section" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Recipient BVN</label>
+                        <input type="text" class="form-input" id="bvnTransferNumber" placeholder="Enter 11-digit BVN" maxlength="11">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Recipient Name</label>
+                        <input type="text" class="form-input" id="bvnTransferName" placeholder="Name will appear after BVN verification" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Amount (₦)</label>
+                        <input type="number" class="form-input" id="bvnTransferAmount" placeholder="Enter amount">
+                    </div>
+                    <button class="btn btn-success" onclick="executeBVNTransfer()">💸 Transfer via BVN</button>
+                </div>
+
+                <!-- Phone Transfer -->
+                <div id="phoneTransfer" class="transfer-section" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Recipient Phone Number</label>
+                        <input type="text" class="form-input" id="phoneTransferNumber" placeholder="Enter phone number (e.g., 08012345678)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Recipient Name</label>
+                        <input type="text" class="form-input" id="phoneTransferName" placeholder="Name will appear after verification" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Amount (₦)</label>
+                        <input type="number" class="form-input" id="phoneTransferAmount" placeholder="Enter amount">
+                    </div>
+                    <button class="btn btn-success" onclick="executePhoneTransfer()">📱 Transfer via Phone</button>
+                </div>
+
+                <div id="bankTransferForm" style="margin-top: 2rem; display: none;">
+                    <h3 style="margin-bottom: 1rem;">Transfer to: <span id="selectedBankName"></span></h3>
+                    <div class="form-group">
+                        <label class="form-label">Account Number</label>
+                        <input type="text" class="form-input" id="transferAccountNumber" placeholder="Enter account number" maxlength="10">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Account Name</label>
+                        <input type="text" class="form-input" id="transferAccountName" placeholder="Account name will appear here" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Amount (₦)</label>
+                        <input type="number" class="form-input" id="transferAmount" placeholder="Enter amount">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description (Optional)</label>
+                        <input type="text" class="form-input" id="transferDescription" placeholder="Enter description">
+                    </div>
+                    <button class="btn btn-success" onclick="executeBankTransfer()">💸 Transfer Now</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">📋 Transaction History</h2>
+                </div>
+                <ul class="transaction-list" id="fullTransactionList">
+                    <li class="transaction-item" style="text-align: center; color: var(--text-secondary);">
+                        No transactions yet
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Mining Tab -->
+        <div id="mining" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">⛏️ Automatic Mining System</h2>
+                    <div>
+                        <button class="btn btn-success btn-small" onclick="startAllMining()">▶️ Start All Mining</button>
+                        <button class="btn btn-danger btn-small" onclick="stopAllMining()">⏹️ Stop All Mining</button>
+                    </div>
+                </div>
+
+                <!-- Fiat Currency Mining -->
+                <h3 style="margin: 1.5rem 0 1rem 0; color: var(--primary-color);">💰 Fiat Currency Mining</h3>
+                <div class="mining-dashboard">
+                    <div class="mining-card active" id="mining-usd">
+                        <div class="mining-icon">$</div>
+                        <div class="mining-currency">US Dollar (USD)</div>
+                        <div class="mining-balance" id="mining-usd-balance">$0.00</div>
+                        <div class="mining-status">
+                            <div class="mining-status-indicator active" id="mining-usd-indicator"></div>
+                            <span id="mining-usd-status">Mining Active</span>
+                        </div>
+                        <div class="mining-rate">Rate: $100 USD every 1 hour</div>
+                        <div class="mining-progress">
+                            <div class="mining-progress-bar" id="mining-usd-progress" style="width: 0%"></div>
+                        </div>
+                        <div class="mining-controls" style="margin-top: 1rem;">
+                            <button class="mining-btn stop" onclick="toggleMining('usd')">⏹️ Stop</button>
+                        </div>
+                        <div class="mining-stats">
+                            <div class="mining-stat-row">
+                                <span>Total Mined:</span>
+                                <span id="mining-usd-total">$0.00</span>
+                            </div>
+                            <div class="mining-stat-row">
+                                <span>Mining Sessions:</span>
+                                <span id="mining-usd-sessions">0</span>
+                            </div>
+                            <div class="mining-stat-row">
+                                <span>Next Payout:</span>
+                                <span id="mining-usd-next">59:59</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mining-card active" id="mining-eur" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                        <div class="mining-icon">€</div>
+                        <div class="mining-currency">Euro (EUR)</div>
+                        <div class="mining-balance" id="mining-eur-balance">€0.00</div>
+                        <div class="mining-status">
+                            <div class="mining-status-indicator active" id="mining-eur-indicator"></div>
+                            <span id="mining-eur-status">Mining Active</span>
+                        </div>
+                        <div class="mining-rate">Rate: €100 EUR every 1 hour</div>
+                        <div class="mining-progress">
+                            <div class="mining-progress-bar" id="mining-eur-progress" style="width: 0%"></div>
+                        </div>
+                        <div class="mining-controls" style="margin-top: 1rem;">
+                            <button class="mining-btn stop" onclick="toggleMining('eur')">⏹️ Stop</button>
+                        </div>
+                        <div class="mining-stats">
+                            <div class="mining-stat-row">
+                                <span>Total Mined:</span>
+                                <span id="mining-eur-total">€0.00</span>
+                            </div>
+                            <div class="mining-stat-row">
+                                <span>Mining Sessions:</span>
+                                <span id="mining-eur-sessions">0</span>
+                            </div>
+                            <div class="mining-stat-row">
+                                <span>Next Payout:</span>
+                                <span id="mining-eur-next">59:59</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mining-card active" id="mining-gbp" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                        <div class="mining-icon">£</div>
+                        <div class="mining-currency">British Pound (GBP)</div>
+                        <div class="mining-balance" id="mining-gbp-balance">£0.00</div>
+                        <div class="mining-status">
+                            <div class="mining-status-indicator active" id="mining-gbp-indicator"></div>
+                            <span id="mining-gbp-status">Mining Active</span>
+                        </div>
+                        <div class="mining-rate">Rate: £100 GBP every 1 hour</div>
+                        <div class="mining-progress">
+                            <div class="mining-progress-bar" id="mining-gbp-progress" style="width: 0%"></div>
+                        </div>
+                        <div class="mining-controls" style="margin-top: 1rem;">
+                            <button class="mining-btn stop" onclick="toggleMining('gbp')">⏹️ Stop</button>
+                        </div>
+                        <div class="mining-stats">
+                            <div class="mining-stat-row">
+                                <span>Total Mined:</span>
+                                <span id="mining-gbp-total">£0.00</span>
+                            </div>
+                            <div class="mining-stat-row">
+                                <span>Mining Sessions:</span>
+                                <span id="mining-gbp-sessions">0</span>
+                            </div>
+                            <div class="mining-stat-row">
+                                <span>Next Payout:</span>
+                                <span id="mining-gbp-next">59:59</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mining-card active" id="mining-ngn" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+                        <div class="mining-icon">₦</div>
+                        <div class="mining-currency">Nigerian Naira (NGN)</div>
+                        <div class="mining-balance" id="mining-ngn-balance">₦0.00</div>
+                        <div class="mining-status">
+                            <div class="mining-status-indicator active" id="mining-ngn-indicator"></div>
+                            <span id="mining-ngn-status">Mining Active</span>
+                        </div>
+                        <div class="mining-rate">Rate: ₦100 NGN every 1 hour</div>
+                        <div class="mining-progress">
+                            <div class="mining-progress-bar" id="mining-ngn-progress" style="width: 0%"></div>
+                        </div>
+                        <div class="mining-controls" style="margin-top: 1rem;">
+                            <button class="mining-btn stop" onclick="toggleMining('ngn')">⏹️ Stop</button>
+                        </div>
+                        <div class="mining-stats">
+                            <div class="mining-stat-row">
+                                <span>Total Mined:</span>
+                                <span id="mining-ngn-total">₦0.00</span>
+                            </div>
+                            <div class="mining-stat-row">
+                                <span>Mining Sessions:</span>
+                                <span id="mining-ngn-sessions">0</span>
+                            </div>
+                            <div class="mining-stat-row">
+                                <span>Next Payout:</span>
+                                <span id="mining-ngn-next">59:59</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cryptocurrency Mining -->
+                <h3 style="margin: 2rem 0 1rem 0; color: var(--primary-color);">₿ Cryptocurrency Mining</h3>
+                
+                <div class="address-generator">
+                    <div class="address-generator-header">
+                        <h3 style="margin: 0;">⛏️ Blockchain Address Generator</h3>
+                        <div>
+                            <span class="address-counter">Generated: <span id="address-count">0</span></span>
+                            <button class="btn btn-primary btn-small" style="margin-left: 1rem;" onclick="toggleAddressGenerator()" id="address-gen-btn">⏹️ Stop Generator</button>
+                        </div>
+                    </div>
+                    <p style="margin-bottom: 1rem; color: var(--text-secondary);">
+                        Automatically generating 10 blockchain addresses every 1 second. Each address is added to your mining pool.
+                    </p>
+                    <div class="address-display" id="address-display">
+                        <div style="text-align: center; color: rgba(0,0,0,0.5); padding: 1rem;">
+                            Address generator starting...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mining-dashboard">
+                    <div class="mining-card crypto-mining-card active" id="mining-btc">
+                        <div class="mining-icon">₿</div>
+                        <div class="mining-currency">Bitcoin (BTC)</div>
+                        <div class="mining-balance" id="mining-btc-balance">0.00000000 BTC</div>
+                        <div class="mining-status">
+                            <div class="mining-status-indicator active" id="mining-btc-indicator"></div>
+                            <span id="mining-btc-status">Mining Active</span>
+                        </div>
+                        <div class="mining-rate">Rate: 1 BTC every 1 hour</div>
+                        <div class="mining-progress">
+                            <div class="mining-progress-bar" id="mining-btc-progress" style="width: 0%"></div>
+                        </div>
+                        <div class="mining-controls" style="margin-top: 1rem;">
+                            <button class="mining-btn stop" onclick="toggleMining('btc')">⏹️ Stop</button>
+                        </div>
+                        <div class="mining-stats">
+                            <div class="mining-stat-row">
+                                <span>Total Mined:</span>
+                                <span id="mining-btc-total">0.00000000 BTC</span>
+                            </div>
+                            <div class="mining-stat-row">
+                                <span>Mining Sessions:</span>
+                                <span id="mining-btc-sessions">0</span>
+                            </div>
+                            <div class="mining-stat-row">
+                                <span>Addresses Generated:</span>
+                                <span id="mining-btc-addresses">0</span>
+                            </div>
+                            <div class="mining-stat-row">
+                                <span>Next Payout:</span>
+                                <span id="mining-btc-next">59:59</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mining-card crypto-mining-card trx active" id="mining-trx">
+                        <div class="mining-icon">TRX</div>
+                        <div class="mining-currency">TRON (TRX)</div>
+                        <div class="mining-balance" id="mining-trx-balance">0.00000000 TRX</div>
+                        <div class="mining-status">
+                            <div class="mining-status-indicator active" id="mining-trx-indicator"></div>
+                            <span id="mining-trx-status">Mining Active</span>
+                        </div>
+                        <div class="mining-rate">Rate: 1 TRX every 1 hour</div>
+                        <div class="mining-progress">
+                            <div class="mining-progress-bar" id="mining-trx-progress" style="width: 0%"></div>
+                        </div>
+                        <div class="mining-controls" style="margin-top: 1rem;">
+                            <button class="mining-btn stop" onclick="toggleMining('trx')">⏹️ Stop</button>
+                        </div>
+                        <div class="mining-stats">
+                            <div class="mining-stat-row">
+                                <span>Total Mined:</span>
+                                <span id="mining-trx-total">0.00000000 TRX</span>
+                            </div>
+                            <div class="mining-stat-row">
+                                <span>Mining Sessions:</span>
+                                <span id="mining-trx-sessions">0</span>
+                            </div>
+                            <div class="mining-stat-row">
+                                <span>Addresses Generated:</span>
+                                <span id="mining-trx-addresses">0</span>
+                            </div>
+                            <div class="mining-stat-row">
+                                <span>Next Payout:</span>
+                                <span id="mining-trx-next">59:59</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mining-card crypto-mining-card ton active" id="mining-ton">
+                        <div class="mining-icon">TON</div>
+                        <div class="mining-currency">TON (TON)</div>
+                        <div class="mining-balance" id="mining-ton-balance">0.00000000 TON</div>
+                        <div class="mining-status">
+                            <div class="mining-status-indicator active" id="mining-ton-indicator"></div>
+                            <span id="mining-ton-status">Mining Active</span>
+                        </div>
+                        <div class="mining-rate">Rate: 1 TON every 1 hour</div>
+                        <div class="mining-progress">
+                            <div class="mining-progress-bar" id="mining-ton-progress" style="width: 0%"></div>
+                        </div>
+                        <div class="mining-controls" style="margin-top: 1rem;">
+                            <button class="mining-btn stop" onclick="toggleMining('ton')">⏹️ Stop</button>
+                        </div>
+                        <div class="mining-stats">
+                            <div class="mining-stat-row">
+                                <span>Total Mined:</span>
+                                <span id="mining-ton-total">0.00000000 TON</span>
+                            </div>
+                            <div class="mining-stat-row">
+                                <span>Mining Sessions:</span>
+                                <span id="mining-ton-sessions">0</span>
+                            </div>
+                            <div class="mining-stat-row">
+                                <span>Addresses Generated:</span>
+                                <span id="mining-ton-addresses">0</span>
+                            </div>
+                            <div class="mining-stat-row">
+                                <span>Next Payout:</span>
+                                <span id="mining-ton-next">59:59</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crypto Withdrawal Section -->
+                <div class="withdraw-section">
+                    <div class="card-header">
+                        <h2 class="card-title">💸 Withdraw Mined Crypto</h2>
+                    </div>
+                    <p style="margin-bottom: 1rem; color: var(--text-secondary);">
+                        Withdraw your mined cryptocurrency to any external blockchain wallet or crypto exchange.
+                    </p>
+                    <div class="withdraw-grid">
+                        <div class="withdraw-card">
+                            <div class="withdraw-icon">₿</div>
+                            <div class="withdraw-balance" id="withdraw-btc-balance">0.00000000 BTC</div>
+                            <button class="btn btn-primary btn-small" onclick="openCryptoWithdrawModal('BTC')">Withdraw BTC</button>
+                        </div>
+                        <div class="withdraw-card">
+                            <div class="withdraw-icon">TRX</div>
+                            <div class="withdraw-balance" id="withdraw-trx-balance">0.00000000 TRX</div>
+                            <button class="btn btn-primary btn-small" onclick="openCryptoWithdrawModal('TRX')">Withdraw TRX</button>
+                        </div>
+                        <div class="withdraw-card">
+                            <div class="withdraw-icon">TON</div>
+                            <div class="withdraw-balance" id="withdraw-ton-balance">0.00000000 TON</div>
+                            <button class="btn btn-primary btn-small" onclick="openCryptoWithdrawModal('TON')">Withdraw TON</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mining Logs -->
+                <div class="card" style="margin-top: 1.5rem;">
+                    <div class="card-header">
+                        <h2 class="card-title">📋 Mining Activity Log</h2>
+                        <button class="btn btn-primary btn-small" onclick="clearMiningLogs()">🗑️ Clear Logs</button>
+                    </div>
+                    <div class="mining-logs" id="mining-logs">
+                        <div class="log-entry">
+                            <span class="log-timestamp">[${new Date().toLocaleTimeString()}]</span>
+                            <span class="log-info">Mining system initialized</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signals Tab -->
+        <div id="signals" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">📊 Free Banking Signals</h2>
+                    <button class="btn btn-primary btn-small" onclick="refreshSignals()">🔄 Refresh Signals</button>
+                </div>
+                
+                <div class="signal-dashboard">
+                    <div class="signal-card">
+                        <div class="signal-type">Local Banking Signal</div>
+                        <div class="signal-value">Strong Buy</div>
+                        <div class="signal-change positive">+15.2%</div>
+                    </div>
+                    <div class="signal-card" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                        <div class="signal-type">International Signal</div>
+                        <div class="signal-value">Hold</div>
+                        <div class="signal-change">+2.8%</div>
+                    </div>
+                    <div class="signal-card" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                        <div class="signal-type">Crypto Signal</div>
+                        <div class="signal-value">Buy</div>
+                        <div class="signal-change positive">+28.5%</div>
+                    </div>
+                    <div class="signal-card" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+                        <div class="signal-type">Forex Signal</div>
+                        <div class="signal-value">Sell</div>
+                        <div class="signal-change negative">-3.2%</div>
+                    </div>
+                </div>
+
+                <div class="card-header">
+                    <h2 class="card-title">📈 Market Insights & Recommendations</h2>
+                </div>
+                
+                <ul class="signal-list" id="signalList">
+                    <li class="signal-item">
+                        <div class="signal-icon">🏦</div>
+                        <div class="signal-content">
+                            <div class="signal-title">NGN/USD Exchange Rate</div>
+                            <div class="signal-description">Expecting appreciation in next 48 hours</div>
+                        </div>
+                        <span class="signal-badge buy">BUY</span>
+                    </li>
+                    <li class="signal-item">
+                        <div class="signal-icon">₿</div>
+                        <div class="signal-content">
+                            <div class="signal-title">Bitcoin (BTC)</div>
+                            <div class="signal-description">Strong momentum, potential breakout</div>
+                        </div>
+                        <span class="signal-badge buy">BUY</span>
+                    </li>
+                    <li class="signal-item">
+                        <div class="signal-icon">€</div>
+                        <div class="signal-content">
+                            <div class="signal-title">EUR/NGN Pair</div>
+                            <div class="signal-description">Consolidation phase, wait for confirmation</div>
+                        </div>
+                        <span class="signal-badge hold">HOLD</span>
+                    </li>
+                    <li class="signal-item">
+                        <div class="signal-icon">📊</div>
+                        <div class="signal-content">
+                            <div class="signal-title">Stock Market</div>
+                            <div class="signal-description">Bearish trend expected short-term</div>
+                        </div>
+                        <span class="signal-badge sell">SELL</span>
+                    </li>
+                    <li class="signal-item">
+                        <div class="signal-icon">💎</div>
+                        <div class="signal-content">
+                            <div class="signal-title">Gold (XAU)</div>
+                            <div class="signal-description">Safe haven asset, accumulation phase</div>
+                        </div>
+                        <span class="signal-badge buy">BUY</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Search Tab -->
+        <div id="search" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">🔍 Google Search & Address Lookup</h2>
+                </div>
+                
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" class="search-input" id="googleSearchInput" placeholder="Search Google for banking information...">
+                        <button class="search-button" onclick="executeGoogleSearch()">🔍 Search</button>
+                    </div>
+                </div>
+
+                <div class="address-lookup">
+                    <h3 style="margin-bottom: 1rem;">🌐 HTTP/HTTPS Address Lookup</h3>
+                    <div class="search-box">
+                        <input type="text" class="search-input" id="httpAddressInput" placeholder="Enter website URL (e.g., https://example.com)">
+                        <button class="search-button" onclick="lookupAddress()">🔍 Lookup</button>
+                    </div>
+                    <div class="lookup-result" id="lookupResult"></div>
+                </div>
+
+                <div class="search-results" id="searchResults"></div>
+            </div>
+        </div>
+
+        <!-- License Tab -->
+        <div id="license" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">🎫 Free Transaction License</h2>
+                    <span class="transaction-license-badge license-verified">
+                        ✅ VERIFIED FREE LICENSE
+                    </span>
+                </div>
+                
+                <div class="license-card">
+                    <div class="license-icon">🎫</div>
+                    <div class="license-status">✅ LICENSE ACTIVE</div>
+                    <div class="license-type">UNLIMITED FREE TRANSACTION LICENSE</div>
+                    <div class="license-number">LIC-2024-FREE-CombosBANK-UNLIMITED</div>
+                    <p style="margin-top: 1rem; opacity: 0.9;">
+                        Your account is fully licensed for unlimited free transactions across all banking services.
+                    </p>
+
+                    <div class="license-features">
+                        <div class="license-feature">
+                            <span class="license-feature-icon">✅</span>
+                            <span>Unlimited Local Bank Transfers (Commercial, Fintech & Mobile)</span>
+                        </div>
+                        <div class="license-feature">
+                            <span class="license-feature-icon">✅</span>
+                            <span>Unlimited International Wire Transfers (USD, EUR, GBP)</span>
+                        </div>
+                        <div class="license-feature">
+                            <span class="license-feature-icon">✅</span>
+                            <span>Unlimited Cryptocurrency Transactions (BTC, TRX, TON, ETH)</span>
+                        </div>
+                        <div class="license-feature">
+                            <span class="license-feature-icon">✅</span>
+                            <span>Free Wallet Operations (Debit & Credit Wallets)</span>
+                        </div>
+                        <div class="license-feature">
+                            <span class="license-feature-icon">✅</span>
+                            <span>No Transaction Fees - 100% Free</span>
+                        </div>
+                        <div class="license-feature">
+                            <span class="license-feature-icon">✅</span>
+                            <span>Free Banking Signals & Market Insights</span>
+                        </div>
+                        <div class="license-feature">
+                            <span class="license-feature-icon">✅</span>
+                            <span>Free Currency Conversion Services</span>
+                        </div>
+                        <div class="license-feature">
+                            <span class="license-feature-icon">✅</span>
+                            <span>Free SMS & Email Alerts</span>
+                        </div>
+                        <div class="license-feature">
+                            <span class="license-feature-icon">✅</span>
+                            <span>Free BVN/NIN Transaction Network Access</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-header">
+                    <h2 class="card-title">📋 License Permissions</h2>
+                </div>
+
+                <div class="license-permissions">
+                    <div class="permission-card">
+                        <div class="permission-icon">🏦</div>
+                        <div class="permission-name">Local Transfers</div>
+                        <div class="permission-status">✅ UNLIMITED</div>
+                    </div>
+                    <div class="permission-card">
+                        <div class="permission-icon">🌍</div>
+                        <div class="permission-name">International Transfers</div>
+                        <div class="permission-status">✅ UNLIMITED</div>
+                    </div>
+                    <div class="permission-card">
+                        <div class="permission-icon">₿</div>
+                        <div class="permission-name">Crypto Transactions</div>
+                        <div class="permission-status">✅ UNLIMITED</div>
+                    </div>
+                    <div class="permission-card">
+                        <div class="permission-icon">💳</div>
+                        <div class="permission-name">Wallet Operations</div>
+                        <div class="permission-status">✅ UNLIMITED</div>
+                    </div>
+                    <div class="permission-card">
+                        <div class="permission-icon">📊</div>
+                        <div class="permission-name">Banking Signals</div>
+                        <div class="permission-status">✅ FREE</div>
+                    </div>
+                    <div class="permission-card">
+                        <div class="permission-icon">🔍</div>
+                        <div class="permission-name">Search Services</div>
+                        <div class="permission-status">✅ FREE</div>
+                    </div>
+                    <div class="permission-card">
+                        <div class="permission-icon">💱</div>
+                        <div class="permission-name">Currency Exchange</div>
+                        <div class="permission-status">✅ FREE</div>
+                    </div>
+                    <div class="permission-card">
+                        <div class="permission-icon">🔔</div>
+                        <div class="permission-name">Alert Services</div>
+                        <div class="permission-status">✅ FREE</div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 1.5rem;">
+                    <div class="card-header">
+                        <h2 class="card-title">📜 License Agreement</h2>
+                    </div>
+                    <div style="padding: 1rem; background: var(--background-color); border-radius: 0.5rem;">
+                        <p style="margin-bottom: 1rem;">
+                            This Free Transaction License grants you unlimited access to all CombosBank services without any transaction fees, subscription costs, or hidden charges. This license is valid for lifetime use and includes all current and future features.
+                        </p>
+                        <p style="margin-bottom: 1rem;">
+                            <strong>License Terms:</strong>
+                        </p>
+                        <ul style="margin-left: 1.5rem; line-height: 2;">
+                            <li>Unlimited transactions across all banking services</li>
+                            <li>No fees for local, international, or crypto transfers</li>
+                            <li>Free access to real-time banking signals</li>
+                            <li>Free currency conversion and exchange services</li>
+                            <li>Free SMS and email notification services</li>
+                            <li>Lifetime validity with no renewal required</li>
+                            <li>Access to all premium features at no cost</li>
+                        </ul>
+                        <p style="margin-top: 1rem; margin-bottom: 0;">
+                            <strong>License Valid Since:</strong> <span id="licenseValidSince"></span><br>
+                            <strong>License Expires:</strong> Never (Lifetime)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts Tab -->
+        <div id="alerts" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">🔔 Alert Settings</h2>
+                </div>
+                <div class="alert-section">
+                    <div class="alert-card">
+                        <h3>📱 SMS Alerts</h3>
+                        <div class="alert-toggle">
+                            <span>Transaction SMS</span>
+                            <div class="toggle-switch active" onclick="toggleAlert(this, 'transactionSMS')"></div>
+                        </div>
+                        <div class="alert-toggle">
+                            <span>Balance SMS</span>
+                            <div class="toggle-switch active" onclick="toggleAlert(this, 'balanceSMS')"></div>
+                        </div>
+                        <div class="alert-toggle">
+                            <span>Login SMS</span>
+                            <div class="toggle-switch active" onclick="toggleAlert(this, 'loginSMS')"></div>
+                        </div>
+                        <div class="form-group" style="margin-top: 1rem;">
+                            <label class="form-label">SMS Phone Number</label>
+                            <input type="text" class="form-input" id="smsPhoneNumber" value="+234 801 234 5678">
+                        </div>
+                    </div>
+                    <div class="alert-card">
+                        <h3>📧 Email Alerts</h3>
+                        <div class="alert-toggle">
+                            <span>Transaction Email</span>
+                            <div class="toggle-switch active" onclick="toggleAlert(this, 'transactionEmail')"></div>
+                        </div>
+                        <div class="alert-toggle">
+                            <span>Balance Email</span>
+                            <div class="toggle-switch" onclick="toggleAlert(this, 'balanceEmail')"></div>
+                        </div>
+                        <div class="alert-toggle">
+                            <span>Security Email</span>
+                            <div class="toggle-switch active" onclick="toggleAlert(this, 'securityEmail')"></div>
+                        </div>
+                        <div class="form-group" style="margin-top: 1rem;">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-input" id="alertEmail" value="olawale@combosbank.com">
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" style="margin-top: 1rem;" onclick="saveAlertSettings()">💾 Save Alert Settings</button>
+            </div>
+        </div>
+
+        <!-- Backup Tab -->
+        <div id="backup" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">💾 Backup & Restore System</h2>
+                </div>
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
+                    Automatically backup your banking data to prevent data loss. You can also manually export and import your data.
+                </p>
+
+                <div class="backup-section">
+                    <h3>🔄 Automatic Backup</h3>
+                    <p style="margin-bottom: 1rem;">Your data is automatically backed up every 5 minutes to local storage.</p>
+                    <div class="backup-controls">
+                        <button class="btn btn-success" onclick="createBackup()">💾 Create Backup Now</button>
+                        <button class="btn btn-primary" onclick="downloadBackup()">⬇️ Download Backup File</button>
+                        <button class="btn btn-warning" onclick="document.getElementById('restoreFile').click()">⬆️ Restore from File</button>
+                        <input type="file" id="restoreFile" accept=".json" style="display: none;" onchange="restoreFromFile(event)">
+                    </div>
+                    <div class="backup-info">
+                        <h4>Last Backup Information:</h4>
+                        <div id="lastBackupInfo">
+                            <p><strong>Time:</strong> <span id="lastBackupTime">Never</span></p>
+                            <p><strong>Transactions:</strong> <span id="backupTransactionCount">0</span></p>
+                            <p><strong>Total Balance:</strong> <span id="backupBalance">₦0.00</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="backup-section" style="margin-top: 2rem;">
+                    <h3>🗑️ Data Management</h3>
+                    <div class="backup-controls">
+                        <button class="btn btn-danger" onclick="clearAllData()">🗑️ Clear All Data</button>
+                        <button class="btn btn-info" onclick="resetToDefault()">🔄 Reset to Default</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Credit Modal -->
+    <div id="creditModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💰 Credit Account</h3>
+                <button class="modal-close" onclick="closeModal('creditModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Amount (₦)</label>
+                <input type="number" class="form-input" id="creditAmount" placeholder="Enter amount to credit">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <input type="text" class="form-input" id="creditDescription" placeholder="Enter description">
+            </div>
+            <button class="btn btn-success" onclick="executeCredit()">✅ Credit Account</button>
+        </div>
+    </div>
+
+    <!-- Debit Modal -->
+    <div id="debitModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💸 Debit Account</h3>
+                <button class="modal-close" onclick="closeModal('debitModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Amount (₦)</label>
+                <input type="number" class="form-input" id="debitAmount" placeholder="Enter amount to debit">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <input type="text" class="form-input" id="debitDescription" placeholder="Enter description">
+            </div>
+            <button class="btn btn-danger" onclick="executeDebit()">❌ Debit Account</button>
+        </div>
+    </div>
+
+    <!-- Edit Balance Modal -->
+    <div id="editBalanceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✏️ Edit Balance</h3>
+                <button class="modal-close" onclick="closeModal('editBalanceModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">New Balance (₦)</label>
+                <input type="number" class="form-input" id="newBalance" placeholder="Enter new balance">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Reason</label>
+                <input type="text" class="form-input" id="balanceReason" placeholder="Enter reason for change">
+            </div>
+            <button class="btn btn-primary" onclick="executeEditBalance()">💾 Update Balance</button>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✏️ Edit Profile</h3>
+                <button class="modal-close" onclick="closeModal('editProfileModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-input" id="editName" placeholder="Enter full name">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Date of Birth</label>
+                <input type="date" class="form-input" id="editDOB">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Sex</label>
+                <select class="form-select" id="editSex">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Country</label>
+                <input type="text" class="form-input" id="editCountry" placeholder="Enter country">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" id="editEmail" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Phone</label>
+                <input type="text" class="form-input" id="editPhone" placeholder="Enter phone number">
+            </div>
+            <div class="form-group">
+                <label class="form-label">BVN (Optional)</label>
+                <input type="text" class="form-input" id="editBVN" placeholder="Enter BVN" maxlength="11">
+            </div>
+            <div class="form-group">
+                <label class="form-label">NIN (Optional)</label>
+                <input type="text" class="form-input" id="editNIN" placeholder="Enter NIN" maxlength="11">
+            </div>
+            <button class="btn btn-primary" onclick="saveProfile()">💾 Save Profile</button>
+        </div>
+    </div>
+
+    <!-- Fund Wallet Modal -->
+    <div id="fundWalletModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💰 Fund Wallet</h3>
+                <button class="modal-close" onclick="closeModal('fundWalletModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Select Wallet</label>
+                <select class="form-select" id="fundWalletType">
+                    <option value="debit">Debit Wallet</option>
+                    <option value="credit">Credit Wallet</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Amount (₦)</label>
+                <input type="number" class="form-input" id="fundWalletAmount" placeholder="Enter amount">
+            </div>
+            <button class="btn btn-success" onclick="executeFundWallet()">✅ Fund Wallet</button>
+        </div>
+    </div>
+
+    <!-- Withdraw Wallet Modal -->
+    <div id="withdrawWalletModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💸 Withdraw from Wallet</h3>
+                <button class="modal-close" onclick="closeModal('withdrawWalletModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Select Wallet</label>
+                <select class="form-select" id="withdrawWalletType">
+                    <option value="debit">Debit Wallet</option>
+                    <option value="credit">Credit Wallet</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Amount (₦)</label>
+                <input type="number" class="form-input" id="withdrawWalletAmount" placeholder="Enter amount">
+            </div>
+            <button class="btn btn-danger" onclick="executeWithdrawWallet()">❌ Withdraw</button>
+        </div>
+    </div>
+
+    <!-- Crypto Transfer Modal -->
+    <div id="cryptoTransferModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>₿ Send Cryptocurrency</h3>
+                <button class="modal-close" onclick="closeModal('cryptoTransferModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Cryptocurrency</label>
+                <input type="text" class="form-input" id="cryptoType" readonly>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Recipient Wallet Address</label>
+                <input type="text" class="form-input" id="cryptoRecipientAddress" placeholder="Enter recipient wallet address">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Amount</label>
+                <input type="number" step="0.00000001" class="form-input" id="cryptoAmount" placeholder="Enter amount">
+            </div>
+            <button class="btn btn-success" onclick="executeCryptoTransfer()">✅ Send Cryptocurrency</button>
+        </div>
+    </div>
+
+    <!-- Currency Converter Modal -->
+    <div id="currencyConverterModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💱 Currency Converter</h3>
+                <button class="modal-close" onclick="closeModal('currencyConverterModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">From</label>
+                <select class="form-select" id="convertFrom">
+                    <option value="USD">US Dollar (USD)</option>
+                    <option value="EUR">Euro (EUR)</option>
+                    <option value="GBP">British Pound (GBP)</option>
+                    <option value="NGN">Nigerian Naira (NGN)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">To</label>
+                <select class="form-select" id="convertTo">
+                    <option value="NGN">Nigerian Naira (NGN)</option>
+                    <option value="USD">US Dollar (USD)</option>
+                    <option value="EUR">Euro (EUR)</option>
+                    <option value="GBP">British Pound (GBP)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Amount</label>
+                <input type="number" class="form-input" id="convertAmount" placeholder="Enter amount">
+            </div>
+            <button class="btn btn-primary" onclick="executeCurrencyConversion()">💱 Convert</button>
+            <div id="conversionResult" style="margin-top: 1rem; font-size: 1.25rem; font-weight: bold; text-align: center;"></div>
+        </div>
+    </div>
+
+    <!-- International Deposit Modal -->
+    <div id="internationalDepositModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💰 Deposit to Currency Account</h3>
+                <button class="modal-close" onclick="closeModal('internationalDepositModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Currency</label>
+                <input type="text" class="form-input" id="depositCurrency" readonly>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Amount</label>
+                <input type="number" class="form-input" id="depositAmount" placeholder="Enter amount">
+            </div>
+            <button class="btn btn-success" onclick="executeInternationalDeposit()">✅ Deposit</button>
+        </div>
+    </div>
+
+    <!-- Crypto Withdrawal Modal -->
+    <div id="cryptoWithdrawModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💸 Withdraw Mined Cryptocurrency</h3>
+                <button class="modal-close" onclick="closeModal('cryptoWithdrawModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Cryptocurrency</label>
+                <input type="text" class="form-input" id="withdrawCryptoType" readonly>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Available Balance</label>
+                <input type="text" class="form-input" id="withdrawAvailableBalance" readonly>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Recipient Wallet Address</label>
+                <input type="text" class="form-input" id="withdrawRecipientAddress" placeholder="Enter external wallet address">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Amount to Withdraw</label>
+                <input type="number" step="0.00000001" class="form-input" id="withdrawAmount" placeholder="Enter amount">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Network Fee (FREE with License)</label>
+                <input type="text" class="form-input" value="0.00000000" readonly style="background: var(--background-color);">
+            </div>
+            <button class="btn btn-success" onclick="executeCryptoWithdraw()">✅ Withdraw Now</button>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="banking-app.js"></script>
+</body>
+</html>
